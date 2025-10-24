@@ -33,6 +33,7 @@ export const initialPortfolioData = {
       technologies: ["Flask", "MongoDB", "Stripe", "Bootstrap 5", "Python", "QR Code"],
       liveUrl: "https://studentease-app-jt53.vercel.app/",
       category: "Full Stack",
+      image: "💻",
       featured: true,
       stats: {
         impact: "3x productivity boost",
@@ -47,6 +48,7 @@ export const initialPortfolioData = {
       technologies: ["Flask", "MongoDB Atlas", "Gemini AI", "n8n", "Python", "LinkedIn API", "GitHub API"],
       liveUrl: "https://hire-ai-web-001.vercel.app/about",
       category: "AI Automation",
+      image: "🤖",
       featured: true,
       stats: {
         impact: "70% time reduction",
@@ -61,6 +63,7 @@ export const initialPortfolioData = {
       technologies: ["Django", "MongoDB", "Djongo", "Bootstrap 5", "Python"],
       githubUrl: "https://github.com/Jitesh52142/Twicky--a-social-meadia-application",
       category: "Social Media",
+      image: "🌐",
       featured: false,
     },
     {
@@ -70,6 +73,7 @@ export const initialPortfolioData = {
       technologies: ["Python", "Streamlit", "Scikit-Learn", "Pandas", "Matplotlib", "Seaborn"],
       liveUrl: "https://laptop-price-predictor-7-kney.onrender.com",
       category: "Machine Learning",
+      image: "📊",
       featured: true,
       stats: {
         impact: "95% accuracy",
@@ -84,6 +88,7 @@ export const initialPortfolioData = {
       technologies: ["Flask", "LangChain", "Python", "NLP", "Docker"],
       liveUrl: "https://info-chat-za5u.onrender.com/",
       category: "AI Chatbot",
+      image: "💬",
       featured: false,
     },
     {
@@ -93,6 +98,7 @@ export const initialPortfolioData = {
       technologies: ["Flask", "Scikit-Learn", "Folium", "OpenCage", "Python", "ML"],
       githubUrl: "https://github.com/Jitesh52142/Safenet_Dashbord",
       category: "Data Analytics",
+      image: "📈",
       featured: false,
     },
     {
@@ -102,6 +108,7 @@ export const initialPortfolioData = {
       technologies: ["TypeScript", "n8n", "Vercel", "Webhooks", "React"],
       liveUrl: "https://meta-ads-three.vercel.app/",
       category: "Marketing Automation",
+      image: "📱",
       featured: true,
     },
     {
@@ -111,6 +118,7 @@ export const initialPortfolioData = {
       technologies: ["Node.js", "Express.js", "MongoDB", "JWT", "AI"],
       liveUrl: "https://keyword-finder-application.vercel.app/login.html",
       category: "AI Research",
+      image: "🔍",
       featured: false,
     },
     {
@@ -120,6 +128,7 @@ export const initialPortfolioData = {
       technologies: ["Next.js 14", "TypeScript", "Tailwind CSS", "n8n", "Image Processing"],
       liveUrl: "https://company-research-app.vercel.app/",
       category: "Research Tools",
+      image: "🏢",
       featured: false,
     },
     {
@@ -129,6 +138,7 @@ export const initialPortfolioData = {
       technologies: ["JavaScript", "HTML", "CSS", "n8n", "Webhooks"],
       liveUrl: "https://leads-generation-app-cxe6.vercel.app/",
       category: "Business Tools",
+      image: "📋",
       featured: false,
     },
     {
@@ -138,6 +148,7 @@ export const initialPortfolioData = {
       technologies: ["TensorFlow", "Flask", "CNN", "Deep Learning", "Medical AI"],
       githubUrl: "https://github.com/Jitesh52142/Kideny_Diseas_Classification-",
       category: "Healthcare AI",
+      image: "🏥",
       featured: true,
       stats: {
         impact: "98% accuracy",
