@@ -88,6 +88,8 @@ npm run dev
 
 ## 🌐 Deployment on Vercel
 
+### Quick Deploy Steps:
+
 1. **Push to GitHub**
 ```bash
 git init
@@ -99,16 +101,27 @@ git push -u origin main
 
 2. **Deploy on Vercel**
 - Go to [Vercel](https://vercel.com)
+- Click "Add New Project"
 - Import your GitHub repository
-- Add environment variables:
-  - `MONGODB_URI`
-  - `JWT_SECRET`
-- Deploy!
+- Click "Deploy" (it will use default MongoDB connection)
 
-3. **MongoDB Setup**
-- Create a free cluster on [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
-- Get your connection string
-- Add it to Vercel environment variables
+3. **Set Environment Variables (Optional - for custom setup)**
+
+Go to your Vercel project → Settings → Environment Variables and add:
+
+| Variable | Value | Environment |
+|----------|-------|-------------|
+| `MONGODB_URI` | `mongodb+srv://Jitesh001:Jitesh001@twicky.fxotzly.mongodb.net/portfolio?retryWrites=true&w=majority` | Production, Preview, Development |
+| `JWT_SECRET` | `your-secret-key-min-32-chars` | Production, Preview, Development |
+| `ADMIN_EMAIL` | `admin@example.com` | Production, Preview, Development |
+| `ADMIN_PASSWORD` | `your-secure-password` | Production, Preview, Development |
+
+4. **Redeploy** (if you added environment variables)
+- Go to Deployments tab
+- Click "..." on latest deployment
+- Click "Redeploy"
+
+**Note:** The app has a default MongoDB connection built-in, so it will work immediately after deployment!
 
 ## 📁 Project Structure
 
