@@ -1,4 +1,4 @@
-# Jitesh Bawaskar - Professional Portfolio
+# Professional Portfolio
 
 A modern, dynamic portfolio website built with Next.js 14, TypeScript, Tailwind CSS, and MongoDB. Features a stunning dark theme with smooth animations, comprehensive project showcase, and a powerful admin panel for content management.
 
@@ -57,8 +57,8 @@ Create a `.env.local` file in the root directory:
 ```env
 MONGODB_URI=your-mongodb-connection-string
 JWT_SECRET=your-super-secret-jwt-key
-ADMIN_EMAIL=jiteshbawaskar05@gmail.com
-ADMIN_PASSWORD=admin123
+ADMIN_EMAIL=your-email@example.com
+ADMIN_PASSWORD=your-secure-password
 ```
 
 4. **Run the development server**
@@ -73,10 +73,10 @@ npm run dev
 ## 🎨 Admin Panel Access
 
 ### Default Credentials
-- Email: `jiteshbawaskar05@gmail.com`
-- Password: `admin123`
+- Email: Set in `.env.local` file
+- Password: Set in `.env.local` file
 
-**Important**: Change these credentials after first login for security.
+**Important**: Use secure credentials and change them regularly.
 
 ### Admin Features
 - View analytics dashboard
@@ -204,10 +204,7 @@ Modify animation variants in components or `globals.css`.
 
 ## 🤝 Support
 
-For issues or questions:
-- Email: jiteshbawaskar05@gmail.com
-- GitHub: [Jitesh52142](https://github.com/Jitesh52142)
-- LinkedIn: [Jitesh Bawaskar](https://www.linkedin.com/in/jitesh-bawaskar-ab3a06359/)
+For issues or questions, please open an issue on the repository.
 
 ## 📄 License
 
@@ -223,5 +220,5 @@ This project is licensed under the MIT License.
 
 ---
 
-**Built with ❤️ by Jitesh Bawaskar**
+**Built with ❤️**
 
