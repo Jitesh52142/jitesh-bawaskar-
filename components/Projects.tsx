@@ -59,10 +59,10 @@ const Projects = ({ projects }: ProjectsProps) => {
               <button
                 key={category}
                 onClick={() => setFilter(category)}
-                className={`px-6 py-2 rounded-full font-medium transition-all duration-300 hover:scale-105 ${
+                className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 hover:scale-105 ${
                   filter === category
-                    ? 'bg-warm-white-500 text-black shadow-lg border-2 border-warm-white-600'
-                    : 'glass-effect text-gray-400 hover:bg-warm-white-500/10 border border-warm-white-500/20'
+                    ? 'bg-cream-500 text-black shadow-xl border-2 border-cream-600 scale-105'
+                    : 'bg-cream-500/10 text-cream-500 hover:bg-cream-500/20 border-2 border-cream-500/30 hover:border-cream-500/50'
                 }`}
               >
                 {category}
