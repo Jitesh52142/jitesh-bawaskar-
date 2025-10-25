@@ -51,23 +51,7 @@ const Navbar = () => {
       }`}
     >
       <div className="container-custom">
-        <div className="flex justify-between items-center">
-          {/* Logo/Brand */}
-          <motion.a
-            href="#home"
-            className="flex items-center gap-2 group"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
-              <span className="text-black text-xl font-bold">JB</span>
-            </div>
-            <div className="hidden sm:block">
-              <div className="text-lg font-bold text-white">Jitesh Bawaskar</div>
-              <div className="text-xs text-gray-400 -mt-1">Portfolio</div>
-            </div>
-          </motion.a>
-
+        <div className="flex justify-center items-center">
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-1 px-4 py-2 rounded-full bg-white/5 border border-white/10">
             {navItems.map((item) => (
