@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaBars, FaTimes, FaCode } from 'react-icons/fa';
+import { FaBars, FaTimes, FaUser, FaBriefcase, FaLaptopCode, FaRocket } from 'react-icons/fa';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -59,12 +59,12 @@ const Navbar = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center transform group-hover:rotate-6 transition-transform duration-300">
-              <FaCode className="text-black text-xl" />
+            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
+              <span className="text-black text-xl font-bold">JB</span>
             </div>
             <div className="hidden sm:block">
-              <div className="text-lg font-bold text-white">Portfolio</div>
-              <div className="text-xs text-gray-400 -mt-1">Jitesh Bawaskar</div>
+              <div className="text-lg font-bold text-white">Jitesh Bawaskar</div>
+              <div className="text-xs text-gray-400 -mt-1">Portfolio</div>
             </div>
           </motion.a>
 
