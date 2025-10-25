@@ -16,19 +16,36 @@ export default function Home() {
   const [data, setData] = useState(initialPortfolioData);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    // Fetch latest portfolio data from API
-    fetch('/api/portfolio')
-      .then(res => res.json())
-      .then(portfolioData => {
-        setData(portfolioData);
-        setLoading(false);
-      })
-      .catch(error => {
-        console.error('Error fetching portfolio:', error);
-        setData(initialPortfolioData);
-        setLoading(false);
+  const fetchPortfolioData = async () => {
+    try {
+      // Add timestamp to prevent caching
+      const timestamp = new Date().getTime();
+      const response = await fetch(`/api/portfolio?t=${timestamp}`, {
+        cache: 'no-store',
+        headers: {
+          'Cache-Control': 'no-cache',
+        },
       });
+      const portfolioData = await response.json();
+      setData(portfolioData);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching portfolio:', error);
+      setData(initialPortfolioData);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    // Fetch on mount
+    fetchPortfolioData();
+
+    // Optional: Auto-refresh every 30 seconds to show updates
+    const interval = setInterval(() => {
+      fetchPortfolioData();
+    }, 30000); // 30 seconds
+
+    return () => clearInterval(interval);
   }, []);
 
   if (loading) {

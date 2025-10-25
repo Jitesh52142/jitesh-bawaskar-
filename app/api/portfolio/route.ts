@@ -16,13 +16,23 @@ export async function GET() {
       await portfolioData.save();
     }
     
-    return NextResponse.json(portfolioData);
+    // Return with cache control headers to ensure fresh data
+    return NextResponse.json(portfolioData, {
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+      },
+    });
   } catch (error: any) {
     console.error('Database error, falling back to initial data:', error);
     // Fallback to initial data if database fails
     return NextResponse.json(initialPortfolioData);
   }
 }
+
+// Add revalidation for Vercel
+export const revalidate = 0; // Disable caching
 
 export async function PUT(request: Request) {
   try {
