@@ -3,6 +3,11 @@ import { initialPortfolioData } from '@/lib/data/initialData';
 import dbConnect from '@/lib/mongodb';
 import { Portfolio } from '@/lib/models/Portfolio';
 
+// Force dynamic rendering on Vercel - no caching
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+export const fetchCache = 'force-no-store';
+
 export async function GET() {
   try {
     await dbConnect();
@@ -30,9 +35,6 @@ export async function GET() {
     return NextResponse.json(initialPortfolioData);
   }
 }
-
-// Add revalidation for Vercel
-export const revalidate = 0; // Disable caching
 
 export async function PUT(request: Request) {
   try {

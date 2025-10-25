@@ -12,6 +12,10 @@ import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 import { initialPortfolioData } from '@/lib/data/initialData';
 
+// Force dynamic rendering on Vercel
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function Home() {
   const [data, setData] = useState(initialPortfolioData);
   const [loading, setLoading] = useState(true);
