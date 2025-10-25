@@ -33,6 +33,7 @@ export default function ProjectsManagement() {
   const [techInput, setTechInput] = useState('');
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
     const initializeData = async () => {
@@ -121,6 +122,8 @@ export default function ProjectsManagement() {
       });
 
       if (response.ok) {
+        setSuccessMessage(isCreating ? 'Project created successfully!' : 'Project updated successfully!');
+        setTimeout(() => setSuccessMessage(''), 3000);
         await fetchProjects();
         handleCancel();
       }
@@ -141,6 +144,8 @@ export default function ProjectsManagement() {
       });
 
       if (response.ok) {
+        setSuccessMessage('Project deleted successfully!');
+        setTimeout(() => setSuccessMessage(''), 3000);
         await fetchProjects();
       }
     } catch (error) {
@@ -187,7 +192,8 @@ export default function ProjectsManagement() {
       if (response.ok && data.success) {
         handleInputChange('image', data.imageUrl);
         setUploadError('');
-        alert('Image uploaded successfully! It will be saved to MongoDB Atlas when you save the project.');
+        setSuccessMessage('Image uploaded successfully!');
+        setTimeout(() => setSuccessMessage(''), 3000);
       } else {
         setUploadError(data.error || 'Upload failed');
       }
@@ -209,6 +215,18 @@ export default function ProjectsManagement() {
   return (
     <div className="min-h-screen section-padding">
       <div className="container-custom">
+        {/* Success Toast Notification */}
+        {successMessage && (
+          <div className="fixed top-4 right-4 z-50 animate-fadeInUp">
+            <div className="bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-3">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+              <span className="font-medium">{successMessage}</span>
+            </div>
+          </div>
+        )}
+
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <div>
@@ -329,10 +347,21 @@ export default function ProjectsManagement() {
                   placeholder="https://example.com/image.jpg or emoji 🚀"
                 />
                 
-                {/* Upload Error */}
+                {/* Upload Messages */}
                 {uploadError && (
-                  <div className="mt-3 p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
+                  <div className="mt-3 p-3 bg-red-500/10 border border-red-500/30 rounded-lg flex items-center gap-2">
+                    <svg className="w-4 h-4 text-red-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
                     <p className="text-sm text-red-400">{uploadError}</p>
+                  </div>
+                )}
+                {successMessage && !uploadError && (
+                  <div className="mt-3 p-3 bg-green-500/10 border border-green-500/30 rounded-lg flex items-center gap-2">
+                    <svg className="w-4 h-4 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <p className="text-sm text-green-400">Ready to save</p>
                   </div>
                 )}
                 
