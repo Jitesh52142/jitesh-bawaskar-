@@ -175,11 +175,11 @@ export default function SkillsManagement() {
 
         {/* Skill Form */}
         {showForm && editingSkill && (
-          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-start justify-center p-4 overflow-y-auto">
+          <div className="fixed inset-0 bg-black/95 backdrop-blur-xl z-50 flex items-start justify-center p-4 overflow-y-auto">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="glass-effect card-gradient rounded-xl p-8 w-full max-w-2xl my-8"
+              className="bg-gradient-to-br from-gray-900 to-black border-2 border-yellow-500/30 shadow-2xl shadow-yellow-500/20 rounded-2xl p-8 w-full max-w-2xl my-8"
             >
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-2xl font-bold text-white flex items-center gap-2">
