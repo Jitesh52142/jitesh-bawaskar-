@@ -163,6 +163,13 @@ export default function ProjectsManagement() {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    // Validate file size before uploading
+    const maxSize = 5 * 1024 * 1024; // 5MB
+    if (file.size > maxSize) {
+      setUploadError('File too large. Maximum size is 5MB.');
+      return;
+    }
+
     setUploading(true);
     setUploadError('');
 
@@ -177,14 +184,15 @@ export default function ProjectsManagement() {
 
       const data = await response.json();
 
-      if (response.ok) {
+      if (response.ok && data.success) {
         handleInputChange('image', data.imageUrl);
-        alert('Image uploaded successfully!');
+        setUploadError('');
+        alert('Image uploaded successfully! It will be saved to MongoDB Atlas when you save the project.');
       } else {
         setUploadError(data.error || 'Upload failed');
       }
     } catch (error) {
-      setUploadError('Failed to upload image');
+      setUploadError('Failed to upload image. Please try again.');
     } finally {
       setUploading(false);
     }
@@ -323,31 +331,45 @@ export default function ProjectsManagement() {
                 
                 {/* Upload Error */}
                 {uploadError && (
-                  <p className="text-xs text-red-400 mt-1">{uploadError}</p>
-                )}
-                
-                {/* Image Preview */}
-                {formData.image && !formData.image.startsWith('http') && formData.image.length < 10 ? (
-                  <div className="mt-3 text-4xl">{formData.image}</div>
-                ) : formData.image && (
-                  <div className="mt-3">
-                    <Image 
-                      src={formData.image} 
-                      alt="Preview" 
-                      width={128}
-                      height={128}
-                      className="w-32 h-32 object-cover rounded-lg"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).style.display = 'none';
-                      }}
-                    />
+                  <div className="mt-3 p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
+                    <p className="text-sm text-red-400">{uploadError}</p>
                   </div>
                 )}
                 
-                <p className="text-xs text-gray-500 mt-2">
-                  • Upload an image (JPG, PNG, GIF, WebP - max 5MB)<br />
-                  • Or paste an image URL<br />
-                  • Or use an emoji (e.g., 🚀, 💻, 🤖)
+                {/* Image Preview */}
+                {formData.image && (
+                  <div className="mt-4">
+                    <p className="text-sm text-gray-400 mb-2">Preview:</p>
+                    {formData.image.length < 10 && !formData.image.startsWith('http') && !formData.image.startsWith('data:') ? (
+                      <div className="text-6xl p-4 bg-black/20 rounded-lg inline-block">{formData.image}</div>
+                    ) : (
+                      <div className="relative">
+                        <Image 
+                          src={formData.image} 
+                          alt="Preview" 
+                          width={200}
+                          height={200}
+                          className="w-48 h-48 object-cover rounded-lg border-2 border-warm-white-700/30"
+                          unoptimized={formData.image.startsWith('data:')}
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.style.display = 'none';
+                            const errorDiv = target.nextElementSibling as HTMLElement;
+                            if (errorDiv) errorDiv.style.display = 'block';
+                          }}
+                        />
+                        <div className="hidden mt-2 p-2 bg-red-500/10 rounded text-sm text-red-400">
+                          Failed to load image preview
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+                
+                <p className="text-xs text-gray-500 mt-3">
+                  📤 <strong>Upload an image</strong> (JPG, PNG, GIF, WebP - max 5MB) - Saved to MongoDB Atlas<br />
+                  🔗 <strong>Or paste an image URL</strong><br />
+                  😊 <strong>Or use an emoji</strong> (e.g., 🚀, 💻, 🤖)
                 </p>
               </div>
 

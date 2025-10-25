@@ -45,13 +45,23 @@ const Projects = ({ projects }: ProjectsProps) => {
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 gradient-text">
-            <span className="inline-block hover:animate-pulse-slow">Featured Projects</span>
-          </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-primary-500 to-dark-400 mx-auto mb-8"></div>
-          <p className="text-center text-gray-400 mb-12 max-w-2xl mx-auto">
-            <span className="inline-block hover:animate-bounce-gentle">Explore my portfolio of AI-powered applications, automation tools, and full-stack solutions</span>
-          </p>
+          <div className="text-center mb-12">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={inView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ duration: 0.5 }}
+              className="inline-block px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-4"
+            >
+              <span className="text-sm text-white/80 font-medium">💼 Portfolio</span>
+            </motion.div>
+            <h2 className="text-4xl md:text-6xl font-bold mb-4 text-white">
+              Featured Projects
+            </h2>
+            <div className="w-24 h-1 bg-gradient-to-r from-yellow-500 to-yellow-600 mx-auto mb-6"></div>
+            <p className="text-gray-300 text-lg max-w-2xl mx-auto">
+              Explore my portfolio of AI-powered applications, automation tools, and full-stack solutions
+            </p>
+          </div>
 
           {/* Filter Buttons */}
           <div className="flex flex-wrap justify-center gap-4 mb-12">
@@ -61,8 +71,8 @@ const Projects = ({ projects }: ProjectsProps) => {
                 onClick={() => setFilter(category)}
                 className={`px-8 py-3 rounded-full font-bold text-lg transition-all duration-300 ${
                   filter === category
-                    ? 'bg-warm-white-500 text-black shadow-2xl border-3 scale-110 ring-4 ring-warm-white-500/50'
-                    : 'bg-transparent text-warm-white-500/70 hover:text-warm-white-500 hover:bg-warm-white-500/10 border-2 border-warm-white-500/40 hover:border-warm-white-500/60 hover:scale-105'
+                    ? 'bg-gradient-to-r from-yellow-500 to-yellow-600 text-black shadow-2xl shadow-yellow-500/50 scale-110 ring-4 ring-yellow-500/50 border-2 border-yellow-500'
+                    : 'bg-white/5 text-gray-300 hover:text-white hover:bg-white/10 border-2 border-white/10 hover:border-white/20 hover:scale-105'
                 }`}
               >
                 {category}
@@ -71,31 +81,33 @@ const Projects = ({ projects }: ProjectsProps) => {
           </div>
 
           {/* Projects Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {filteredProjects?.map((project, index) => (
               <motion.div
                 key={project.id}
                 initial={{ opacity: 0, y: 50 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ delay: index * 0.1 }}
-                className="glass-effect card-gradient rounded-xl overflow-hidden card-hover group"
+                whileHover={{ y: -8, scale: 1.02 }}
+                className="group relative bg-white/5 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/10 hover:border-white/20 transition-all duration-300"
               >
                 {/* Project Header */}
                 <div className="relative h-48 bg-gradient-to-br from-primary-500/20 to-dark-400/20 flex items-center justify-center overflow-hidden">
                   {project.image ? (
                     // If image is an emoji (single character or very short)
-                    project.image.length <= 4 && !project.image.startsWith('http') && !project.image.startsWith('/') ? (
+                    project.image.length <= 4 && !project.image.startsWith('http') && !project.image.startsWith('/') && !project.image.startsWith('data:') ? (
                       <div className="text-6xl opacity-50 group-hover:scale-110 transition-transform duration-300">
                         {project.image}
                       </div>
                     ) : (
-                      // If image is a URL or uploaded file path
+                      // If image is a URL, Base64, or uploaded file path
                       <Image 
                         src={project.image} 
                         alt={project.title}
                         width={400}
                         height={300}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                        unoptimized={project.image.startsWith('data:')}
                         onError={(e) => {
                           // Fallback to category emoji if image fails to load
                           const target = e.target as HTMLImageElement;
@@ -118,6 +130,7 @@ const Projects = ({ projects }: ProjectsProps) => {
                       {project.category === 'Social Media' && '🌐'}
                       {project.category === 'Research Tools' && '🔬'}
                       {project.category === 'Business Tools' && '💼'}
+                      {!['AI Automation', 'Machine Learning', 'Full Stack', 'AI Chatbot', 'Data Analytics', 'Marketing Automation', 'Healthcare AI', 'Social Media', 'Research Tools', 'Business Tools'].includes(project.category) && '📁'}
                     </div>
                   )}
                   {/* Fallback emoji (hidden by default, shown if image fails) */}
@@ -132,16 +145,27 @@ const Projects = ({ projects }: ProjectsProps) => {
                     {project.category === 'Social Media' && '🌐'}
                     {project.category === 'Research Tools' && '🔬'}
                     {project.category === 'Business Tools' && '💼'}
+                    {!['AI Automation', 'Machine Learning', 'Full Stack', 'AI Chatbot', 'Data Analytics', 'Marketing Automation', 'Healthcare AI', 'Social Media', 'Research Tools', 'Business Tools'].includes(project.category) && '📁'}
                   </div>
                 </div>
 
                 {/* Project Content */}
                 <div className="p-6">
-                  <div className="flex items-start justify-between mb-3">
-                    <h3 className="text-xl font-bold text-white group-hover:text-primary-400 transition-colors">
-                      {project.title}
-                    </h3>
+                  {/* Category Badge */}
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="px-3 py-1 text-xs font-semibold rounded-full bg-white/5 border border-white/10 text-gray-300">
+                      {project.category}
+                    </span>
+                    {project.featured && (
+                      <span className="px-2 py-1 text-xs font-semibold rounded bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">
+                        ⭐ Featured
+                      </span>
+                    )}
                   </div>
+                  
+                  <h3 className="text-xl md:text-2xl font-bold text-white group-hover:text-yellow-500 transition-all duration-300 mb-3">
+                    {project.title}
+                  </h3>
 
                   <div className="mb-4">
                     <p className={`text-gray-400 text-sm ${!expandedProjects.has(project.id) ? 'line-clamp-3' : ''}`}>
@@ -187,29 +211,36 @@ const Projects = ({ projects }: ProjectsProps) => {
                   )}
 
                   {/* Links */}
-                  <div className="flex gap-3">
+                  <div className="flex gap-3 mt-6">
                     {project.liveUrl && (
-                      <a
+                      <motion.a
                         href={project.liveUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex-1 btn-primary text-center flex items-center justify-center gap-2 text-sm py-2"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="flex-1 px-4 py-2.5 bg-gradient-to-r from-yellow-500 to-yellow-600 text-black font-semibold text-sm rounded-lg flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-yellow-500/30 transition-all duration-300"
                       >
                         <FaExternalLinkAlt /> Live Demo
-                      </a>
+                      </motion.a>
                     )}
                     {project.githubUrl && (
-                      <a
+                      <motion.a
                         href={project.githubUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex-1 btn-secondary text-center flex items-center justify-center gap-2 text-sm py-2"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="flex-1 px-4 py-2.5 bg-white/5 border border-white/10 text-white font-semibold text-sm rounded-lg flex items-center justify-center gap-2 hover:bg-white/10 hover:border-white/20 transition-all duration-300"
                       >
                         <FaGithub /> Code
-                      </a>
+                      </motion.a>
                     )}
                   </div>
                 </div>
+
+                {/* Hover Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-yellow-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
               </motion.div>
             ))}
           </div>
