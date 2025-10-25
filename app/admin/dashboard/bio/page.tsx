@@ -67,27 +67,26 @@ export default function BioManagement() {
     setErrorMessage('');
     
     try {
-      // Fetch current data
-      const currentResponse = await fetch('/api/portfolio');
-      const currentData = await currentResponse.json();
-      
-      // Update only bio section
-      const updatedData = {
-        ...currentData,
-        bio: bio
-      };
-      
+      // Use section-based update to only update bio
       const response = await fetch('/api/portfolio', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(updatedData),
+        body: JSON.stringify({
+          section: 'bio',
+          data: bio
+        }),
       });
       
       if (response.ok) {
         setSuccessMessage('Bio & Contact information updated successfully!');
         setTimeout(() => setSuccessMessage(''), 3000);
+        
+        // Force refetch to confirm save
+        const portfolioResponse = await fetch(`/api/portfolio?t=${Date.now()}`);
+        const portfolioData = await portfolioResponse.json();
+        setBio(portfolioData.bio || {});
       } else {
         setErrorMessage('Failed to update bio information');
       }

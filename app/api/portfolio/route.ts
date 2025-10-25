@@ -51,16 +51,33 @@ export async function PUT(request: Request) {
     
     // Update specific section or entire portfolio
     if (section) {
+      // Validate section exists
+      const validSections = ['bio', 'projects', 'experiences', 'skills', 'achievements', 'certifications'];
+      if (!validSections.includes(section)) {
+        return NextResponse.json({ error: `Invalid section: ${section}` }, { status: 400 });
+      }
+      
       portfolioData[section] = data;
+      console.log(`Updated section: ${section}`);
     } else {
       Object.assign(portfolioData, data);
+      console.log('Updated entire portfolio');
     }
     
     portfolioData.updatedAt = new Date();
     await portfolioData.save();
     
-    return NextResponse.json(portfolioData);
+    console.log('Portfolio saved successfully');
+    
+    // Return with no-cache headers to ensure fresh data on next fetch
+    return NextResponse.json(portfolioData, {
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate',
+        'Pragma': 'no-cache',
+      },
+    });
   } catch (error: any) {
+    console.error('Error updating portfolio:', error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
