@@ -4,6 +4,10 @@ import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
+// Force dynamic rendering - no caching
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export const metadata: Metadata = {
   title: "Jitesh Bawaskar - AI & Automation Engineer",
   description: "Portfolio of Jitesh Bawaskar - AI & Automation Engineer specializing in Full Stack AI Solutions, Machine Learning, and Intelligent Automation",

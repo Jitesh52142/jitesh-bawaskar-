@@ -63,22 +63,18 @@ export default function ExperienceManagement() {
     checkAuth();
   }, [router]);
 
-  const handleSave = async () => {
+  const handleSave = async (updatedExperiences: Experience[]) => {
     setSaving(true);
     
     try {
-      const currentResponse = await fetch('/api/portfolio');
-      const currentData = await currentResponse.json();
-      
-      const updatedData = {
-        ...currentData,
-        experiences: experiences
-      };
-      
+      // Use section-based update to only update experiences
       const response = await fetch('/api/portfolio', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedData),
+        body: JSON.stringify({
+          section: 'experiences',
+          data: updatedExperiences
+        }),
       });
       
       if (response.ok) {
@@ -86,6 +82,11 @@ export default function ExperienceManagement() {
         setTimeout(() => setSuccessMessage(''), 3000);
         setShowForm(false);
         setEditingExp(null);
+        
+        // Force refetch to confirm save
+        const portfolioResponse = await fetch(`/api/portfolio?t=${Date.now()}`);
+        const portfolioData = await portfolioResponse.json();
+        setExperiences(portfolioData.experiences || []);
       }
     } catch (error) {
       console.error('Error:', error);
@@ -104,23 +105,26 @@ export default function ExperienceManagement() {
     setShowForm(true);
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = async (id: number) => {
     if (confirm('Are you sure you want to delete this experience?')) {
-      setExperiences(experiences.filter(exp => exp.id !== id));
+      const updatedExperiences = experiences.filter(exp => exp.id !== id);
+      setExperiences(updatedExperiences);
+      await handleSave(updatedExperiences);
     }
   };
 
   const handleSubmit = () => {
     if (editingExp) {
+      let updatedExperiences: Experience[];
       const existingIndex = experiences.findIndex(exp => exp.id === editingExp.id);
       if (existingIndex >= 0) {
-        const updated = [...experiences];
-        updated[existingIndex] = editingExp;
-        setExperiences(updated);
+        updatedExperiences = [...experiences];
+        updatedExperiences[existingIndex] = editingExp;
       } else {
-        setExperiences([...experiences, editingExp]);
+        updatedExperiences = [...experiences, editingExp];
       }
-      handleSave();
+      setExperiences(updatedExperiences);
+      handleSave(updatedExperiences);
     }
   };
 

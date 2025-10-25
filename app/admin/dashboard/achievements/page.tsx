@@ -80,22 +80,18 @@ export default function AchievementsManagement() {
     checkAuth();
   }, [router]);
 
-  const handleSave = async () => {
+  const handleSave = async (updatedAchievements: Achievement[]) => {
     setSaving(true);
     
     try {
-      const currentResponse = await fetch('/api/portfolio');
-      const currentData = await currentResponse.json();
-      
-      const updatedData = {
-        ...currentData,
-        achievements: achievements
-      };
-      
+      // Use section-based update to only update achievements
       const response = await fetch('/api/portfolio', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedData),
+        body: JSON.stringify({
+          section: 'achievements',
+          data: updatedAchievements
+        }),
       });
       
       if (response.ok) {
@@ -103,6 +99,11 @@ export default function AchievementsManagement() {
         setTimeout(() => setSuccessMessage(''), 3000);
         setShowForm(false);
         setEditingAchievement(null);
+        
+        // Force refetch to confirm save
+        const portfolioResponse = await fetch(`/api/portfolio?t=${Date.now()}`);
+        const portfolioData = await portfolioResponse.json();
+        setAchievements(portfolioData.achievements || []);
       }
     } catch (error) {
       console.error('Error:', error);
@@ -121,23 +122,26 @@ export default function AchievementsManagement() {
     setShowForm(true);
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = async (id: number) => {
     if (confirm('Are you sure you want to delete this achievement?')) {
-      setAchievements(achievements.filter(ach => ach.id !== id));
+      const updatedAchievements = achievements.filter(ach => ach.id !== id);
+      setAchievements(updatedAchievements);
+      await handleSave(updatedAchievements);
     }
   };
 
   const handleSubmit = () => {
     if (editingAchievement && editingAchievement.title && editingAchievement.organization) {
+      let updatedAchievements: Achievement[];
       const existingIndex = achievements.findIndex(ach => ach.id === editingAchievement.id);
       if (existingIndex >= 0) {
-        const updated = [...achievements];
-        updated[existingIndex] = editingAchievement;
-        setAchievements(updated);
+        updatedAchievements = [...achievements];
+        updatedAchievements[existingIndex] = editingAchievement;
       } else {
-        setAchievements([...achievements, editingAchievement]);
+        updatedAchievements = [...achievements, editingAchievement];
       }
-      handleSave();
+      setAchievements(updatedAchievements);
+      handleSave(updatedAchievements);
     }
   };
 

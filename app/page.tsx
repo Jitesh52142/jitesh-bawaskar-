@@ -12,10 +12,6 @@ import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 import { initialPortfolioData } from '@/lib/data/initialData';
 
-// Force dynamic rendering on Vercel
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
-
 export default function Home() {
   const [data, setData] = useState(initialPortfolioData);
   const [loading, setLoading] = useState(true);
@@ -44,10 +40,10 @@ export default function Home() {
     // Fetch on mount
     fetchPortfolioData();
 
-    // Optional: Auto-refresh every 30 seconds to show updates
+    // Auto-refresh every 10 seconds to show updates quickly
     const interval = setInterval(() => {
       fetchPortfolioData();
-    }, 30000); // 30 seconds
+    }, 10000); // 10 seconds - faster refresh for better UX
 
     return () => clearInterval(interval);
   }, []);

@@ -50,22 +50,18 @@ export default function SkillsManagement() {
     checkAuth();
   }, [router]);
 
-  const handleSave = async () => {
+  const handleSave = async (updatedSkills: Skill[]) => {
     setSaving(true);
     
     try {
-      const currentResponse = await fetch('/api/portfolio');
-      const currentData = await currentResponse.json();
-      
-      const updatedData = {
-        ...currentData,
-        skills: skills
-      };
-      
+      // Use section-based update to only update skills
       const response = await fetch('/api/portfolio', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedData),
+        body: JSON.stringify({
+          section: 'skills',
+          data: updatedSkills
+        }),
       });
       
       if (response.ok) {
@@ -73,6 +69,11 @@ export default function SkillsManagement() {
         setTimeout(() => setSuccessMessage(''), 3000);
         setShowForm(false);
         setEditingSkill(null);
+        
+        // Force refetch to confirm save
+        const portfolioResponse = await fetch(`/api/portfolio?t=${Date.now()}`);
+        const portfolioData = await portfolioResponse.json();
+        setSkills(portfolioData.skills || []);
       }
     } catch (error) {
       console.error('Error:', error);
@@ -93,22 +94,25 @@ export default function SkillsManagement() {
     setShowForm(true);
   };
 
-  const handleDelete = (index: number) => {
+  const handleDelete = async (index: number) => {
     if (confirm('Are you sure you want to delete this skill category?')) {
-      setSkills(skills.filter((_, i) => i !== index));
+      const updatedSkills = skills.filter((_, i) => i !== index);
+      setSkills(updatedSkills);
+      await handleSave(updatedSkills);
     }
   };
 
   const handleSubmit = () => {
     if (editingSkill && editingSkill.category && editingSkill.items.length > 0) {
+      let updatedSkills: Skill[];
       if (editIndex >= 0) {
-        const updated = [...skills];
-        updated[editIndex] = editingSkill;
-        setSkills(updated);
+        updatedSkills = [...skills];
+        updatedSkills[editIndex] = editingSkill;
       } else {
-        setSkills([...skills, editingSkill]);
+        updatedSkills = [...skills, editingSkill];
       }
-      handleSave();
+      setSkills(updatedSkills);
+      handleSave(updatedSkills);
     }
   };
 
