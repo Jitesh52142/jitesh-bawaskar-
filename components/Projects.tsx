@@ -46,14 +46,6 @@ const Projects = ({ projects }: ProjectsProps) => {
           transition={{ duration: 0.8 }}
         >
           <div className="text-center mb-12">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={inView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 0.5 }}
-              className="inline-block px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-4"
-            >
-              <span className="text-sm text-white/80 font-medium">💼 Portfolio</span>
-            </motion.div>
             <h2 className="text-4xl md:text-6xl font-bold mb-4 text-white">
               Featured Projects
             </h2>
